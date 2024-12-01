@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Search Portal</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="jobportal.css">
+</head>
+<body>
+    <header>
+        <h1>Job Search Portal</h1>
+    </header>
+    <main>
+        <div id="job-grid" class="job-grid">
+            <!-- Job postings will be inserted here dynamically -->
+        </div>
+        <div id="recentApplications" class="recent-applications">
+            <!-- Recent applications will be displayed here -->
+        </div>
+    </main>
+
+    <div id="jobModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Apply for Job</h2>
+            <form id="jobForm">
+                <input type="hidden" id="jobId" name="jobId">
+                <input type="text" id="applicantName" name="applicantName" placeholder="Your Name" required>
+                <input type="email" id="applicantEmail" name="applicantEmail" placeholder="Your Email" required>
+                <textarea id="coverLetter" name="coverLetter" placeholder="Cover Letter" required></textarea>
+                <input type="file" id="resume" name="resume" required>
+                <button type="submit">Submit Application</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="scripts1.js"></script>
+</body>
+</html>

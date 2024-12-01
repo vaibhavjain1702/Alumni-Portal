@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Success Stories</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 2.5rem;
+            color: #2C3E50;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .story {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+        }
+
+        .story img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .story-content {
+            max-width: 80%;
+        }
+
+        .story-content h2 {
+            margin-top: 0;
+            font-size: 1.8rem;
+            color: #2980B9;
+        }
+
+        .story-content p {
+            font-size: 1.1rem;
+            color: #666;
+        }
+
+        .story-content .author {
+            font-weight: bold;
+            color: #333;
+            margin-top: 10px;
+        }
+
+        @media screen and (max-width: 768px) {
+            .story {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .story img {
+                margin-bottom: 20px;
+            }
+
+            .story-content {
+                max-width: 100%;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Success Stories</h1>
+
+    <div class="container">
+        <!-- Story 1 -->
+        <div class="story">
+            <img src="https://randomuser.me/api/portraits/women/12.jpg" alt="Person 1">
+            <div class="story-content">
+                <h2>From Struggling Student to Software Engineer</h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam auctor orci eget felis placerat, nec sodales metus lobortis. Sed blandit nisi vitae diam mollis, non dictum nunc feugiat. Vivamus lacinia turpis eu facilisis efficitur.</p>
+                <p class="author">- John Doe, Software Engineer at TechCorp</p>
+            </div>
+        </div>
+
+        <!-- Story 2 -->
+        <div class="story">
+            <img src="https://randomuser.me/api/portraits/men/12.jpg" alt="Person 2">
+            <div class="story-content">
+                <h2>Building a Business from the Ground Up</h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam auctor orci eget felis placerat, nec sodales metus lobortis. Sed blandit nisi vitae diam mollis, non dictum nunc feugiat. Vivamus lacinia turpis eu facilisis efficitur.</p>
+                <p class="author">- Jane Smith, CEO of Startup Inc.</p>
+            </div>
+        </div>
+
+        <!-- Add more stories as needed -->
+    </div>
+</body>
+</html>

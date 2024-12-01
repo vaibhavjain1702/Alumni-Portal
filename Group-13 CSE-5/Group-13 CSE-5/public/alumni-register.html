@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alumni Register</title>
+    <link rel="stylesheet" href="alumni-register.css">
+</head>
+<body>
+    <div class="container">
+        <div class="form-section">
+            <h2>Sign up</h2>
+            <form id="registerForm">
+                <div class="input-field">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" name="name" placeholder="John Doe" required>
+                </div>
+                <div class="input-field">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" placeholder="Your Email" required>
+                </div>
+                <div class="input-field">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" placeholder="Password" required>
+                </div>
+                <div class="input-field">
+                    <label for="interests">Interests</label>
+                    <input type="text" id="interests" name="interests" placeholder="Your interests" required>
+                </div>
+                <div class="input-field">
+                    <label for="location">Location</label>
+                    <input type="text" id="location" name="location" placeholder="Location" required>
+                </div>
+
+                <h3>Professional Career</h3>
+                <div class="input-field">
+                    <label for="jobTitle">Job Title</label>
+                    <input type="text" id="jobTitle" name="jobTitle" placeholder="Job Title" required>
+                </div>
+                <div class="input-field">
+                    <label for="company">Company</label>
+                    <input type="text" id="company" name="company" placeholder="Company" required>
+                </div>
+                <div class="input-field">
+                    <label for="experience">Years of Experience</label>
+                    <input type="number" id="experience" name="experience" placeholder="Years of Experience" required>
+                </div>
+
+                <div class="checkbox-field">
+                    <input type="checkbox" id="terms" name="terms" required>
+                    <label for="terms">I agree to all statements in Terms of service</label>
+                </div>
+
+                <button type="submit">Register</button>
+            </form>
+        </div>
+        <div class="image-section">
+            <img src="Assets/illustration.avif" alt="Illustration">
+            <a href="alumni-login.html" class="member-link">I am already a member</a>
+        </div>
+    </div>
+    <script>
+        document.getElementById('registerForm').addEventListener('submit', async (event) => {
+            event.preventDefault();
+    
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const interests = document.getElementById('interests').value;
+            const location = document.getElementById('location').value;
+            const jobTitle = document.getElementById('jobTitle').value;
+            const company = document.getElementById('company').value;
+            const experience = document.getElementById('experience').value;
+            const terms = document.getElementById('terms').checked;
+    
+            // Ensure terms are accepted
+            if (!terms) {
+                alert('Please agree to the terms of service.');
+                return;
+            }
+    
+            const response = await fetch('/registerAlmuni', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    name, email, password, interests, location, jobTitle, company, experience
+                }),
+            });
+    
+            const result = await response.json();
+    
+            if (response.ok) {
+                alert('Registration successful! Redirecting to login page...');
+                window.location.href = '/alumni-login'; // Redirect to login after registration
+            } else {
+                alert(`Error: ${result.message}`);
+            }
+        });
+    </script>
+    
+</body>
+</html>

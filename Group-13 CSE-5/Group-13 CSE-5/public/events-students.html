@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Event Management</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 2.5rem;
+            color: #2C3E50;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .event-list {
+            margin-top: 20px;
+        }
+
+        .event-card {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .event-card h3 {
+            margin-top: 0;
+            font-size: 1.5rem;
+            color: #34495E;
+        }
+
+        .event-card p {
+            margin: 5px 0;
+        }
+
+        .event-card button {
+            padding: 8px 16px;
+            background-color: #27AE60;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .event-card button:hover {
+            background-color: #1F9C52;
+        }
+
+        .event-registered {
+            background-color: #2ECC71;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+            display: inline-block;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>Student Event Management</h1>
+
+    <div class="container">
+        <!-- Event List -->
+        <div class="event-list" id="event-list">
+            <h2>Upcoming Events</h2>
+            <!-- Event cards will be displayed here -->
+        </div>
+    </div>
+
+    <script>
+        // Dummy event data for testing
+        const dummyEvents = [
+            {
+                name: "Alumni Reunion 2024",
+                date: "2024-11-10",
+                type: "Reunion",
+                description: "Join us for the annual alumni reunion event. Meet your old classmates and professors!",
+                registered: false
+            },
+            {
+                name: "Tech Workshop on AI",
+                date: "2024-10-05",
+                type: "Workshop",
+                description: "A hands-on workshop on Artificial Intelligence and Machine Learning.",
+                registered: true // Assume student already registered for this
+            },
+            {
+                name: "Professional Development Seminar",
+                date: "2024-09-15",
+                type: "Professional Development",
+                description: "Enhance your career prospects with this professional development seminar hosted by industry experts.",
+                registered: false
+            }
+        ];
+
+        // Function to display events
+        function displayEvents() {
+            const eventList = document.getElementById('event-list');
+            eventList.innerHTML = '<h2>Upcoming Events</h2>';
+
+            if (dummyEvents.length === 0) {
+                eventList.innerHTML += '<p>No events available. Check back later!</p>';
+                return;
+            }
+
+            dummyEvents.forEach((event, index) => {
+                const eventCard = document.createElement('div');
+                eventCard.className = 'event-card';
+
+                eventCard.innerHTML = `
+                    <h3>${event.name}</h3>
+                    <p><strong>Date:</strong> ${event.date}</p>
+                    <p><strong>Type:</strong> ${event.type}</p>
+                    <p>${event.description}</p>
+                    ${event.registered ? '<span class="event-registered">Registered</span>' : `<button onclick="registerEvent(${index})">Register</button>`}
+                `;
+
+                eventList.appendChild(eventCard);
+            });
+        }
+
+        // Function to register for an event (dummy functionality)
+        function registerEvent(index) {
+            dummyEvents[index].registered = true; // Mark event as registered
+            alert(`You have successfully registered for "${dummyEvents[index].name}"`);
+            displayEvents();  // Refresh event list to show registration status
+        }
+
+        // Load events from the dummy data when the page is loaded
+        window.onload = function() {
+            displayEvents();
+        };
+    </script>
+</body>
+</html>

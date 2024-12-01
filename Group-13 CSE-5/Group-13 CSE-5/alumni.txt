@@ -1,0 +1,40 @@
+
+Name: vanshit
+Email: vanshit.ahuja.23cse@bmu.edu.in
+Password: $2b$10$QHuIuZH9F98plwVBndXdGexPo33Qbm7zRS2Ur4DILOkg38/bnpGO.
+Interests: cricket
+Location: bmu
+Job Title: software developer
+Company: amazon
+Experience: 5
+------------------------------
+
+Name: vanshit
+Email: vanshit.ahuja.23cse@bmu.edu.in
+Password: $2b$10$67a9d1QKjBqq3PvzFtugGuQfoAo8./OiEfdvhWD7EkOk0GcyH73pa
+Interests: cricket
+Location: bmu
+Job Title: software developer
+Company: amazon
+Experience: 5
+------------------------------
+
+Name: vanshit
+Email: vanshit.ahuja.23cse@bmu.edu.in
+Password: $2b$10$XOrBC81EknRVHtTxLvCLrOTJFB2H0AgO6Zqv6lp8lwZGdiMJ8ghGK
+Interests: cricket
+Location: bmu
+Job Title: software developer
+Company: amazon
+Experience: 5
+------------------------------
+
+Name: hjkl
+Email: hjkl@hjkl.com
+Password: $2b$10$QAS9u40VN1GjDTmWteLJiOy2bTZ1usAR/YPFQbJWYksJ6JlMEFj0.
+Interests: hjkl
+Location: hjkl
+Job Title: hjkl
+Company: hjkl
+Experience: 1
+------------------------------

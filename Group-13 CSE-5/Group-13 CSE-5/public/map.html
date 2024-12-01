@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>India Map with Fixed Size Bubbles and Zoom-Dependent Labels</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    
+    <style>
+        #map { height: 600px; width: 100%; }
+        .leaflet-popup-content-wrapper {
+            font-size: 14px;
+        }
+        .circle-label {
+            font-size: 18px;
+            font-weight: bold;
+            text-align: center;
+            width: 40px;
+        }
+
+    </style>
+</head>
+<body>
+    
+    <h3>India Map - People Count by City</h3>
+    <div id="map"></div>
+
+    <script>
+        // Initialize the map and set its view to India
+        var map = L.map('map').setView([20.5937, 78.9629], 5);
+
+        // Load and display a tile layer on the map (OpenStreetMap)
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        // Data: Cities and their respective counts
+        var cityData = [
+            { "city": "Gurugram", "lat": 28.46, "lng": 77.03, "count": 2786 },
+            { "city": "Hyderabad", "lat": 17.38, "lng": 78.47, "count": 84 },
+            { "city": "Bengaluru", "lat": 12.97, "lng": 77.59, "count": 1237 },
+            { "city": "New Delhi", "lat": 28.61, "lng": 77.22, "count": 1325 },
+            { "city": "Jaipur", "lat": 26.92, "lng": 75.82, "count": 976 },
+            { "city": "Ajmer", "lat": 26.45, "lng": 74.64, "count": 109 },
+            { "city": "Pune", "lat": 18.52, "lng": 73.85, "count": 2081 },
+            { "city": "Lucknow", "lat": 26.85, "lng": 80.94, "count": 109 },
+            { "city": "Chennai", "lat": 13.08, "lng": 80.27, "count": 397 },
+            { "city": "Mumbai", "lat": 19.07, "lng": 72.88, "count": 2002 },
+            { "city": "Karimnagar", "lat": 18.44, "lng": 79.13, "count": 141 }
+        ];
+
+        // Add circles and number labels to the map with fixed circle size
+        cityData.forEach(function(city) {
+            var circle = L.circle([city.lat, city.lng], {
+                color: 'blue',
+                fillColor: '',
+                fillOpacity: 0.5,
+                radius: 88888 // Set a fixed radius for all circles
+            }).addTo(map);
+            
+            // Add a label for the count
+            var label = L.divIcon({
+                className: 'circle-label',
+                html: city.count,
+                iconSize: [30, 30], // Adjust label size
+                iconAnchor: [15, 15] // Center the label on the circle
+            });
+            var marker = L.marker([city.lat, city.lng], { icon: label }).addTo(map);
+            
+            // Show popup on click
+            circle.bindPopup("<b>" + city.city + "</b><br>People: " + city.count);
+
+            // Hide markers when zoomed out
+            map.on('zoomend', function() {
+                var currentZoom = map.getZoom();
+                if (currentZoom < 8) {
+                    marker.setOpacity(0);
+                } else {
+                    marker.setOpacity(1);
+                }
+            });
+        });
+    </script>
+</body>
+</html>

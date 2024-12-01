@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alumni Association - Home-Student</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+                <img width="90" src="Assets/logo.png" alt="logo">
+                <span>Alumni Connect</span> 
+                </div>
+            <input type="checkbox" id="menu-toggle">
+            <label for="menu-toggle" class="menu-icon">&#9776;</label>
+            <ul class="menu">
+                <li><a href="dashboard-alumni.html">Home</a></li>
+                <li><a  href="about.html">About</a></li>
+                <li><a href="events.html">Events</a></li>
+                <!-- <li><a href="chatbot.html">Connect-Alumni</a></li> -->
+                <!-- <li><a href="map.html">Almuni network</a></li> -->
+                <li><a href="donation.html">Donations</a></li>
+                <li><a href="jobportal.html">Job Postings</a></li>
+                <li><a href="https://forms.office.com/r/WijafL55kq">Feedback</a></li>
+                <!-- <li><a href="registeration.html">Register</a></li> -->
+            </ul>
+        </nav>
+    </header>
+    
+
+    <main id="home">
+        <section class="hero">
+            <div class="hero-content">
+                <h1>Welcome to the Alumni Association</h1>
+                <p>Celebrating the achievements and memories of our alumni.</p>
+            </div>
+        </section>
+
+        <section class="showcase-grid">
+            <div class="grid-item">
+                <img src="Assets/design.png" alt="Event 1">
+                <div class="overlay">
+                    <h2>Annual Alumni Meet</h2>
+                    <p>Join us for the grand annual meet on September 15, 2024.</p>
+                </div>
+            </div>
+
+            <div class="grid-item">
+                <img src="Assets/achiv.jpg" alt="Alumni Achievement 1">
+                <div class="overlay">
+                    <h2>Alumni Achievement</h2>
+                    <p>John Doe wins the Best Entrepreneur of the Year award.</p>
+                </div>
+            </div>
+
+            <div class="grid-item">
+                <img src="Assets/webinar.jpg" alt="">
+                <div class="overlay">
+                    <h2>Webinar on Career Growth</h2>
+                    <p>Exclusive webinar by industry leaders on October 22, 2024.</p>
+                </div>
+            </div>
+
+            <div class="grid-item">
+                <img src="Assets/achievement2.jpg" alt="Alumni Achievement 2">
+                <div class="overlay">
+                    <h2>Alumni Spotlight</h2>
+                    <p>Jane Smith recognized for her contributions to technology.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Alumni Association. All rights reserved.</p>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const heading = document.querySelector('.hero-content h1');
+            const text = heading.textContent;
+            heading.textContent = '';
+            let index = 0;
+
+            function typeWriter() {
+                if (index < text.length) {
+                    heading.textContent += text.charAt(index);
+                    index++;
+                    setTimeout(typeWriter, 100);
+                }
+            }
+
+            typeWriter();
+
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+    const menuToggle = document.getElementById('menu-toggle');
+    const menu = document.querySelector('.menu');
+    
+    // Toggle the menu visibility when the menu icon is clicked
+    menuToggle.addEventListener('click', function() {
+        if (menu.classList.contains('open')) {
+            menu.classList.remove('open');
+        } else {
+            menu.classList.add('open');
+        }
+    });
+});
+
+    </script>
+</body>
+
+</html>
+
+</body>
+</html>

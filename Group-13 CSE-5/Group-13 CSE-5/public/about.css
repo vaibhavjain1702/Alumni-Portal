@@ -1,0 +1,147 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Body and Typography */
+body {
+    font-family: 'Roboto', sans-serif;
+    color: #333;
+    background-color: #f4f4f4;
+}
+
+/* Header & Navbar */
+header {
+    background-color: #003366;
+    padding: 1rem 0;
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+.logo{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+.logo {
+    color: white;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.menu {
+    list-style: none;
+    display: flex; /* Display flex on larger screens */
+}
+
+.menu li {
+    margin: 0 15px;
+}
+
+.menu li a {
+    color: white;
+    text-decoration: none;
+    font-weight: 600;
+    padding: 0.5rem 1rem;
+    transition: background 0.3s ease, color 0.3s ease;
+}
+
+.menu li a:hover {
+    background-color: #FFD700;
+    border-radius: 5px;
+}
+
+/* Hamburger menu */
+.menu-icon {
+    display: none;
+    color: white;
+    font-size: 2rem;
+    cursor: pointer;
+}
+
+#menu-toggle {
+    display: none;
+}
+.menu{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.menu li{
+    display: flex;
+    align-items: center;
+}
+
+/* Hide menu on smaller screens */
+@media (max-width: 950px) {
+    .menu {
+        display: none; /* Initially hidden on small screens */
+    }
+
+    .menu.open {
+        display: flex;
+        flex-direction: column;
+        background: #003366;
+        position: absolute;
+        top: 70px;
+        left: 0;
+        right: 0;
+        padding: 1rem;
+    }
+
+    .menu-icon {
+        display: block; /* Show hamburger icon on smaller screens */
+    }
+}
+
+
+main {
+    padding: 20px;
+}
+
+.about-section, .mission-section, .team-section, .contact-section {
+    margin-bottom: 40px;
+}
+
+h1, h2, h3 {
+    color: #333;
+}
+
+p, ul {
+    color: #555;
+}
+
+.team-container {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+}
+
+.team-member {
+    text-align: center;
+}
+
+.team-member img {
+    width: 150px;
+    border-radius: 50%;
+}
+
+footer {
+    background: #003366;
+    color: white;
+    text-align: center;
+    padding: 1.5rem;
+    margin-top: 2rem;
+}
+

@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alumni Success Stories</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 2.5rem;
+            color: #2C3E50;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .story-form, .success-message {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .story-form h2, .success-message h1 {
+            margin-top: 0;
+            font-size: 1.8rem;
+            color: #2980B9;
+        }
+
+        .story-form label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+            text-align: left;
+        }
+
+        .story-form input, .story-form textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            font-size: 1rem;
+        }
+
+        .story-form button, .back-button {
+            padding: 10px 20px;
+            background-color: #2980B9;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .story-form button:hover, .back-button:hover {
+            background-color: #1F6397;
+        }
+
+        .story-list {
+            margin-top: 20px;
+        }
+
+        .story-card {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .story-card h3 {
+            margin-top: 0;
+            font-size: 1.5rem;
+            color: #34495E;
+        }
+
+        .story-card p {
+            margin: 5px 0;
+        }
+
+        .story-card button {
+            padding: 8px 16px;
+            background-color: #27AE60;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .story-card button:hover {
+            background-color: #1F9C52;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .success-message p {
+            font-size: 1.2rem;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <h1>Alumni Success Stories</h1>
+
+    <div class="container">
+        <!-- Story Creation Form -->
+        <div class="story-form" id="story-form">
+            <h2>Create Your Success Story</h2>
+            <label for="story-title">Story Title:</label>
+            <input type="text" id="story-title" placeholder="Enter story title">
+
+            <label for="story-content">Your Story:</label>
+            <textarea id="story-content" rows="6" placeholder="Share your success journey"></textarea>
+
+            <button id="create-story">Create Story</button>
+        </div>
+
+        <!-- Success Message -->
+        <div class="success-message hidden" id="success-message">
+            <h1>Story Created Successfully!</h1>
+            <p>Your success story has been created and saved successfully.</p>
+            <button class="back-button" onclick="goBackToForm()">Create Another Story</button>
+        </div>
+
+        <!-- Story List -->
+        <div class="story-list" id="story-list">
+            <h2>Success Stories</h2>
+            <!-- Story cards will be displayed here -->
+        </div>
+    </div>
+    
+    <script>
+        // Function to create a story
+        function createStory() {
+            const storyTitle = document.getElementById('story-title').value;
+            const storyContent = document.getElementById('story-content').value;
+
+            if (!storyTitle || !storyContent) {
+                alert('Please fill in all fields to create the story.');
+                return;
+            }
+
+            const newStory = {
+                title: storyTitle,
+                content: storyContent
+            };
+
+            // Send POST request to the server to create the story
+            fetch('/create-story', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(newStory)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.message) {
+                    alert(data.message);
+                    document.getElementById('story-form').classList.add('hidden');
+                    document.getElementById('success-message').classList.remove('hidden');
+                    displayStories();  // Refresh the story list after adding
+                }
+            })
+            .catch(error => console.error('Error creating story:', error));
+        }
+
+        // Function to go back to form after showing success message
+        function goBackToForm() {
+            document.getElementById('success-message').classList.add('hidden');
+            document.getElementById('story-form').classList.remove('hidden');
+            clearForm();
+        }
+
+        // Function to display stories
+        function displayStories() {
+            fetch('/stories')
+                .then(response => response.json())
+                .then(stories => {
+                    const storyList = document.getElementById('story-list');
+                    storyList.innerHTML = '<h2>Success Stories</h2>';
+
+                    if (stories.length === 0) {
+                        storyList.innerHTML += '<p>No stories available. Create one above!</p>';
+                        return;
+                    }
+
+                    stories.forEach((story) => {
+                        const storyCard = document.createElement('div');
+                        storyCard.className = 'story-card';
+
+                        storyCard.innerHTML = `
+                            <h3>${story.title}</h3>
+                            <p>${story.content}</p>
+                        `;
+
+                        storyList.appendChild(storyCard);
+                    });
+                })
+                .catch(error => console.error('Error fetching stories:', error));
+        }
+
+        // Function to clear form after creating a story
+        function clearForm() {
+            document.getElementById('story-title').value = '';
+            document.getElementById('story-content').value = '';
+        }
+
+        // Event listener for creating story
+        document.getElementById('create-story').addEventListener('click', createStory);
+
+        // Load stories from the server when the page is loaded
+        window.onload = function() {
+            displayStories();
+        };
+    </script>
+</body>
+</html>

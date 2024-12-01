@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alumni Login</title>
+    <link rel="stylesheet" href="almuni-login.css">
+</head>
+<body>
+    <div class="container">
+        <div class="image-section">
+            <img src="Assets/illustration.avif" alt="Illustration">
+            <a href="alumni-register.html" class="create-account-link">Create an account</a>
+        </div>
+        <div class="form-section">
+            <h2>Sign in</h2>
+            <form id="loginForm">
+                <div class="input-field">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" placeholder="Your Email" required>
+                </div>
+                <div class="input-field">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" placeholder="Password" required>
+                </div>
+                <div class="checkbox-field">
+                    <input type="checkbox" id="rememberMe" name="rememberMe">
+                    <label for="rememberMe">Remember me</label>
+                </div>
+                <button type="submit">Log in</button>
+            </form>
+
+            
+        </div>
+    </div>
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const rememberMe = document.getElementById('rememberMe').checked;
+
+            // Send the login data to the server
+            const response = await fetch('/alumni-login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email, password, rememberMe })
+            });
+
+            const result = await response.json();
+
+            if (response.ok) {
+                alert('Login successful! Redirecting to alumni dashboard...');
+                window.location.href = '/dashboard-alumni'; // Redirect on successful login
+            } else {
+                alert(`Login failed: ${result.message}`);
+            }
+        });
+    </script>
+</body>
+</html>

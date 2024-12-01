@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Donate - Alumni Link</title>
+    <link rel="stylesheet" href="donate.css">
+    <link rel="stylesheet" href="chatbot.css">
+</head>
+
+<body>
+    <style>
+        nav{
+            width: 105%;
+        }
+       .donation-container{
+            margin-top: 40px;
+        }
+    </style>
+
+    <header>
+        <nav>
+            <div class="logo">
+                <img width="90" src="Assets/logo.png" alt="logo">
+                <span>Alumni Connect</span> 
+                </div>
+            <input type="checkbox" id="menu-toggle">
+            <label for="menu-toggle" class="menu-icon">&#9776;</label>
+            <ul class="menu">
+                <li><a href="dashboard.html">Home</a></li>
+                <li><a class="active" href="about.html">About</a></li>
+                <li><a href="events.html">Events</a></li>
+                <li><a href="chatbot.html">Connect-Alumni</a></li>
+                <li><a href="map.html">Almuni network</a></li>
+                <li><a href="donation.html">Donations</a></li>
+                <li><a href="jobportal.html">Job Postings</a></li>
+                <li><a href="https://forms.office.com/r/WijafL55kq">Feedback</a></li>
+                <!-- <li><a href="registeration.html">Register</a></li> -->
+            </ul>
+        </nav>
+    </header>
+
+    <div class="donation-container">
+        <h1>Support Alumni Link</h1>
+        <p>Your donation helps us continue to support and connect our alumni community. Every contribution counts.</p>
+        
+        <form id="donationForm" action="/donate" method="POST">
+            <div class="input-group">
+                <label for="name">Full Name</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <div class="input-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="input-group">
+                <label for="amount">Donation Amount ($)</label>
+                <input type="number" id="amount" name="amount" min="1" required>
+            </div>
+            <button type="submit">Donate Now</button>
+        </form>
+    </div>
+
+    <div class="thank-you-message" id="thankYouMessage" style="display:none;">
+        <h2>Thank You for Your Donation!</h2>
+        <p>Your generosity helps us continue our mission.</p>
+        <a href="dashboard.html">Back to Home</a>
+    </div>
+
+    <script>
+        // Handle form submission and show thank you message
+        document.getElementById('donationForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            fetch('/donate', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    name: document.getElementById('name').value,
+                    email: document.getElementById('email').value,
+                    amount: document.getElementById('amount').value
+                })
+            }).then(response => response.json())
+              .then(data => {
+                  if (data.success) {
+                      document.querySelector('.donation-container').style.display = 'none';
+                      document.getElementById('thankYouMessage').style.display = 'block';
+                  }
+              });
+        });
+    </script>
+</body>
+
+</html>

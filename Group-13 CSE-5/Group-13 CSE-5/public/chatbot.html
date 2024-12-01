@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Networking Hub</title>
+    <link rel="stylesheet" href="chatbot.css">
+</head>
+<body>
+    <header>
+        <header>
+            <nav>
+                <div class="logo">
+                    <img width="90" src="Assets/logo.png" alt="logo">
+                    <span>Alumni Connect</span> 
+                    </div>
+                <input type="checkbox" id="menu-toggle">
+                <label for="menu-toggle" class="menu-icon">&#9776;</label>
+                <ul class="menu">
+                    <li><a href="dashboard.html">Home</a></li>
+                    <li><a class="active" href="about.html">About</a></li>
+                    <li><a href="events-students.html">Events</a></li>
+                    <li><a href="chatbot.html">Connect-Alumni</a></li>
+                    <li><a href="map.html">Almuni network</a></li>
+                    <!-- <li><a href="donation.html">Donations</a></li> -->
+                    <li><a href="jobportal.html">Job Postings</a></li>
+                    <li><a href="https://forms.office.com/r/WijafL55kq">Feedback</a></li>
+                    <!-- <li><a href="registeration.html">Register</a></li> -->
+                </ul>
+            </nav>
+        </header>
+    </header>
+    <h1><center style="margin-top: 20px;">Alumni Networking Hub</center></h1>
+    <main>
+        <div id="alumni-grid" class="alumni-grid">
+            <!-- Alumni profiles will be inserted here dynamically -->
+        </div>
+        <div id="recentMessages" class="recent-messages">
+            <h2>Recent Messages</h2>
+            <ul id="message-list">
+                <!-- Recent messages will be displayed here -->
+            </ul>
+        </div>
+    </main>
+
+    <div id="messageModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Send a Message</h2>
+            <form id="messageForm">
+                <input type="hidden" id="recipient" name="recipient">
+                <textarea id="message" name="message" placeholder="Type your message here..." required></textarea>
+                <button type="submit">Send</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Fetch alumni data and display in grid
+        fetch('/alumni')
+            .then(response => response.json())
+            .then(data => {
+                const alumniGrid = document.getElementById('alumni-grid');
+                data.forEach(alumni => {
+                    const alumniCard = document.createElement('div');
+                    alumniCard.classList.add('alumni-card');
+                    alumniCard.innerHTML = `
+                        <img src="${alumni.photo}" alt="${alumni.name}" />
+                        <h3>${alumni.name}</h3>
+                        <p><strong>Interests:</strong> ${alumni.interests}</p>
+                        <p><strong>Location:</strong> ${alumni.location}</p>
+                        <button class="message-btn" data-name="${alumni.name}">Message</button>
+                    `;
+                    alumniGrid.appendChild(alumniCard);
+                });
+
+                // Add event listeners to "Message" buttons
+                const messageButtons = document.querySelectorAll('.message-btn');
+                messageButtons.forEach(button => {
+                    button.addEventListener('click', (event) => {
+                        const recipientName = event.target.getAttribute('data-name');
+                        openModal(recipientName);
+                    });
+                });
+            });
+
+        // Open modal to send message
+        function openModal(recipientName) {
+            document.getElementById('recipient').value = recipientName;
+            document.getElementById('messageModal').style.display = 'block';
+        }
+
+        // Close modal
+        document.querySelector('.close').onclick = function() {
+            document.getElementById('messageModal').style.display = 'none';
+        };
+
+        // Send message form submission
+        document.getElementById('messageForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const recipient = document.getElementById('recipient').value;
+            const message = document.getElementById('message').value;
+
+            fetch('/message', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ recipient, message })
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert(data.message);
+                document.getElementById('messageModal').style.display = 'none';
+                document.getElementById('messageForm').reset();
+                fetchMessages();
+            });
+        });
+
+        // Fetch and display recent messages
+        function fetchMessages() {
+            fetch('/alumniMessages')
+                .then(response => response.json())
+                .then(data => {
+                    const messageList = document.getElementById('message-list');
+                    messageList.innerHTML = '';
+                    data.forEach(message => {
+                        const listItem = document.createElement('li');
+                        listItem.innerHTML = `<strong>${message.recipient}:</strong> ${message.message} <em>(${new Date(message.timestamp).toLocaleString()})</em>`;
+                        messageList.appendChild(listItem);
+                    });
+                });
+        }
+
+        // Fetch messages on page load
+        fetchMessages();
+    </script>
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alumni Event Management</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 2.5rem;
+            color: #2C3E50;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .event-form, .success-message {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .event-form h2, .success-message h1 {
+            margin-top: 0;
+            font-size: 1.8rem;
+            color: #2980B9;
+        }
+
+        .event-form label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+            text-align: left;
+        }
+
+        .event-form input, .event-form textarea, .event-form select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            font-size: 1rem;
+        }
+
+        .event-form button, .back-button {
+            padding: 10px 20px;
+            background-color: #2980B9;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .event-form button:hover, .back-button:hover {
+            background-color: #1F6397;
+        }
+
+        .event-list {
+            margin-top: 20px;
+        }
+
+        .event-card {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .event-card h3 {
+            margin-top: 0;
+            font-size: 1.5rem;
+            color: #34495E;
+        }
+
+        .event-card p {
+            margin: 5px 0;
+        }
+
+        .event-card button {
+            padding: 8px 16px;
+            background-color: #27AE60;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .event-card button:hover {
+            background-color: #1F9C52;
+        }
+
+        .event-registered {
+            background-color: #2ECC71;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+            display: inline-block;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .success-message p {
+            font-size: 1.2rem;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <h1>Alumni Event Management</h1>
+
+    <div class="container">
+        <!-- Event Creation Form -->
+        <div class="event-form" id="event-form">
+            <h2>Create New Event</h2>
+            <label for="event-name">Event Name:</label>
+            <input type="text" id="event-name" placeholder="Enter event name">
+
+            <label for="event-date">Event Date:</label>
+            <input type="date" id="event-date">
+
+            <label for="event-type">Event Type:</label>
+            <select id="event-type">
+                <option value="Reunion">Reunion</option>
+                <option value="Workshop">Workshop</option>
+                <option value="Professional Development">Professional Development</option>
+                <option value="Other">Other</option>
+            </select>
+
+            <label for="event-description">Event Description:</label>
+            <textarea id="event-description" rows="4" placeholder="Provide details about the event"></textarea>
+
+            <button id="create-event">Create Event</button>
+        </div>
+
+        <!-- Success Message -->
+        <div class="success-message hidden" id="success-message">
+            <h1>Event Created Successfully!</h1>
+            <p>Your event has been created and saved successfully.</p>
+            <button class="back-button" onclick="goBackToForm()">Create Another Event</button>
+        </div>
+
+        <!-- Event List -->
+        <div class="event-list" id="event-list">
+            <h2>Upcoming Events</h2>
+            <!-- Event cards will be displayed here -->
+        </div>
+    </div>
+    <script>
+        // Function to create an event
+        function createEvent() {
+            const eventName = document.getElementById('event-name').value;
+            const eventDate = document.getElementById('event-date').value;
+            const eventType = document.getElementById('event-type').value;
+            const eventDescription = document.getElementById('event-description').value;
+    
+            if (!eventName || !eventDate || !eventDescription) {
+                alert('Please fill in all fields to create the event.');
+                return;
+            }
+    
+            const newEvent = {
+                name: eventName,
+                date: eventDate,
+                type: eventType,
+                description: eventDescription
+            };
+    
+            // Send POST request to the server to create the event
+            fetch('/create-event', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(newEvent)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.message) {
+                    alert(data.message);
+                    document.getElementById('event-form').classList.add('hidden');
+                    document.getElementById('success-message').classList.remove('hidden');
+                    displayEvents();  // Refresh the event list after adding
+                }
+            })
+            .catch(error => console.error('Error creating event:', error));
+        }
+    
+        // Function to go back to form after showing success message
+        function goBackToForm() {
+            document.getElementById('success-message').classList.add('hidden');
+            document.getElementById('event-form').classList.remove('hidden');
+            clearForm();
+        }
+    
+        // Function to display events
+        function displayEvents() {
+            fetch('/events')
+                .then(response => response.json())
+                .then(events => {
+                    const eventList = document.getElementById('event-list');
+                    eventList.innerHTML = '<h2>Upcoming Events</h2>';
+    
+                    if (events.length === 0) {
+                        eventList.innerHTML += '<p>No events available. Create one above!</p>';
+                        return;
+                    }
+    
+                    events.forEach((event, index) => {
+                        const eventCard = document.createElement('div');
+                        eventCard.className = 'event-card';
+    
+                        eventCard.innerHTML = `
+                            <h3>${event.name}</h3>
+                            <p><strong>Date:</strong> ${event.date}</p>
+                            <p><strong>Type:</strong> ${event.type}</p>
+                            <p>${event.description}</p>
+                            ${event.registered ? '<span class="event-registered">Registered</span>' : `<button onclick="registerEvent(${index})">Register</button>`}
+                        `;
+    
+                        eventList.appendChild(eventCard);
+                    });
+                })
+                .catch(error => console.error('Error fetching events:', error));
+        }
+    
+        // Function to clear form after creating an event
+        function clearForm() {
+            document.getElementById('event-name').value = '';
+            document.getElementById('event-date').value = '';
+            document.getElementById('event-type').value = 'Reunion';
+            document.getElementById('event-description').value = '';
+        }
+    
+        // Function to register for an event
+        function registerEvent(index) {
+            fetch('/register-event', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ index })
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert(data.message);
+                displayEvents();  // Refresh event list after registration
+            })
+            .catch(error => console.error('Error registering event:', error));
+        }
+    
+        // Event listener for creating event
+        document.getElementById('create-event').addEventListener('click', createEvent);
+    
+        // Load events from the server when the page is loaded
+        window.onload = function() {
+            displayEvents();
+        };
+    </script>
+    
+</body>
+</html>
